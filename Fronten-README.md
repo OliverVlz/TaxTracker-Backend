@@ -1,7 +1,3 @@
-Claro, aquí tienes un ejemplo de README para tu proyecto frontend con Vite y React:
-
----
-
 # Tax Tracker Frontend
 
 ## Descripción
