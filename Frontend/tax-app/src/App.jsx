@@ -20,13 +20,14 @@ function App() {
       {user ? (
         <Router>
           <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/cliente/:id" element={<ClienteProfile />} />
-            <Route path="/historial" element={<Historial />} />
-          </Routes>
+                       <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/cliente/:id" element={<ClienteProfile />} />
+              <Route path="/historial" element={<Historial />} />
+            </Routes>
+           
         </Router>
       ) : (
         <Login handleLogin={handleLogin} />
