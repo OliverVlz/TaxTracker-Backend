@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
 import { format, isBefore, isAfter, parseISO } from 'date-fns';
+import { Button } from '@mui/material';
 
 const initialData = [
   { id: 4, name: "James Houston", obligations: "Test VISA", date: '2024-07-20', status: 'pendiente'},
@@ -72,12 +73,14 @@ const ClienteProfile = () => {
           const date = tableMeta.rowData[3];
           const canNotify = (status === 'pendiente' || status === 'expirado') && isBefore(new Date(), parseISO(date));
           return (
-            <button
+            <Button
+              variant="contained"
+              color= "success"
               onClick={() => handleStatusUpdate('notificado', rowIndex)}
               disabled={!canNotify}
             >
               Notificar
-            </button>
+            </Button>
           );
         }
       } 

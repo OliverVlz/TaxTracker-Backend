@@ -83,6 +83,7 @@ import MUIDataTable from 'mui-datatables';
 import { useState, useEffect } from 'react';
 import { format, isAfter, parseISO } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 const initialData = [
   { id: 11, name: "Joe James", obligations: "Test Corp", date: '2024-09-01', status: 'pendiente'},
@@ -137,13 +138,13 @@ export const CTable = () => {
         customBodyRender: (value, tableMeta) => {
           const clientId = tableMeta.rowData[0]; // Obtener el ID del cliente desde la fila actual
           return (
-            <button
-              onClick={() => {
-                window.location.href = `/profile/${clientId}`;
-              }}
+            <Button
+              variant="contained"
+              color= "primary"
+              onClick={() => navigate(`/profile/${clientId}`)}
             >
               Ver Perfil
-            </button>
+            </Button>
           );
         }
       }
