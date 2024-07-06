@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.tax.demo.services.UsuarioService;
@@ -24,11 +25,15 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
 
-    @GetMapping
+    @GetMapping("/")
     public List<UsuarioEntity> getUsuarios(){
         return usuarioService.getUsuarios();
     }
 
+    @GetMapping("/Login")
+    public UsuarioEntity ValidarLogin(@RequestParam("usuario") String usuario, @RequestParam("password") String password){
+    return usuarioService.ValidarLogin(usuario, password);
+    }
   
     @PostMapping
     public void insertar(@RequestBody UsuarioEntity consulta){
@@ -51,3 +56,4 @@ public class UsuarioController {
 
 
 }
+
