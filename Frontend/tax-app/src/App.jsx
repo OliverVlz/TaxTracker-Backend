@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -8,20 +8,40 @@ import ClienteProfilePage from './pages/ClienteProfilePage';
 import Historial from './pages/Historial';
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogin = (username) => {
+    console.log('Usuario autenticado:', username);
+    setIsAuthenticated(true);
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    navigate('/login');
+  };
+
+  const shouldShowNavbar = location.pathname !== '/login' && location.pathname !== '/signup';
+
   return (
-    <Router>
-      <Navbar />
+    <div>
+      {shouldShowNavbar && <Navbar handleLogout={handleLogout} isAuthenticated={isAuthenticated} />}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<Login handleLogin={handleLogin} />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/profile/:id" element={<ClienteProfilePage />} />
         <Route path="/historial" element={<Historial />} />
       </Routes>
-    </Router>
+    </div>
   );
 };
 
-export default App;
+const AppWrapper = () => (
+  <Router>
+    <App />
+  </Router>
+);
 
-	
+export default AppWrapper;

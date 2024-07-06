@@ -8,7 +8,7 @@
 }
 
 .nav {
-  background: #0082e6;
+  background: linear-gradient(135deg, #53ceff 10%, #3f78e2 100%);
   padding: 0 3rem 0 0;
   z-index: 1000;
 }
