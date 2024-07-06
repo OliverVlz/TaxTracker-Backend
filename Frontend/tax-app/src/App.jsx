@@ -4,7 +4,7 @@ import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import ClienteProfile from './pages/ClienteProfile';
+import ClienteProfilePage from './pages/ClienteProfilePage';
 import Historial from './pages/Historial';
 
 const App = () => {
@@ -15,7 +15,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/cliente/:id" element={<ClienteProfile />} />
+        <Route path="/profile/:id" element={<ClienteProfilePage />} />
         <Route path="/historial" element={<Historial />} />
       </Routes>
     </Router>

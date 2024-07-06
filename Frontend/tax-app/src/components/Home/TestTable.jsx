@@ -18,17 +18,8 @@ const initialData = [
 ];
 
 const ClienteTable = () => {
-  const [data, setData] = useState();
+  const [data, setData] = useState(initialData);
 
-  useEffect(() => {
-    const updatedData = initialData.map(item => {
-      if (item.status === 'pendiente' && isBefore(parseISO(item.date), new Date())) {
-        return { ...item, status: 'vencido' };
-      }
-      return item;
-    });
-    setData(updatedData);
-  }, []);
 
   const handleStatusUpdate = (newStatus, rowIndex) => {
     console.log('Updating status:', newStatus, 'for row index:', rowIndex);
@@ -40,25 +31,25 @@ const ClienteTable = () => {
   };
 
   const columns = [
-      { name: 'id', label: 'ID', options: { filter: false, sort: false } },
-      { name: 'name', label: 'Nombre', options: { filter: false, sort: false } },
-      { name: 'obligations', label: 'Obligaciones', options: { filter: false, sort: false } },
-      {
-        name: "date",
-        label: "Fecha limite",
-        options: {
-          filter: false,
-          sort: true,
-          customBodyRender: (value) => {
-            return format(new Date(value), 'dd/MM/yyyy'); // formatea la fecha
-          }
+    { name: 'id', label: 'ID', options: { filter: false, sort: false } },
+    { name: 'name', label: 'Nombre', options: { filter: false, sort: false } },
+    { name: 'obligations', label: 'Obligaciones', options: { filter: false, sort: false } },
+    {
+      name: "date",
+      label: "Fecha límite",
+      options: {
+        filter: false,
+        sort: false,
+        customBodyRender: (value) => {
+          return format(new Date(value), 'dd/MM/yyyy'); // Formatea la fecha
         }
-      },
+      }
+    },
     { 
       name: "status", 
       label: "Estado", 
       options: { 
-        filter: true, 
+        filter: false, 
         sort: false, 
         customBodyRender: (value) => {
           const color = value === 'notificado' ? 'green' : value === 'expirado' ? 'red' : 'black';
@@ -74,13 +65,13 @@ const ClienteTable = () => {
         sort: false, 
         customBodyRender: (value, tableMeta) => {
           const rowIndex = tableMeta.rowIndex;
-          const status = tableMeta.rowData[5];
-          const date = tableMeta.rowData[4];
-          const canPay = (status === 'pendiente' || status === 'expirado') && isBefore(new Date(), parseISO(date));
+          const status = tableMeta.rowData[4];
+          const date = tableMeta.rowData[3];
+          const canNotify = (status === 'pendiente' || status === 'expirado') && isBefore(new Date(), parseISO(date));
           return (
             <button
               onClick={() => handleStatusUpdate('notificado', rowIndex)}
-              disabled={!canPay}
+              disabled={!canNotify}
             >
               Notificar
             </button>
@@ -88,23 +79,21 @@ const ClienteTable = () => {
         }
       } 
     },
-
   ];
 
   return (
     <MUIDataTable
-      title={"Clientes"}
+      title={"Historial Cliente"}
       data={data}
       columns={columns}
       options={{
-        filterType: 'checkbox',
         selectableRows: 'none',
         onCellClick: (colData, cellMeta) => {
-          if (cellMeta.colIndex === 6) { // Assuming 'Actions' is the last column
+          if (cellMeta.colIndex === 5) { // Assuming 'Actions' is the last column
             const { rowIndex } = cellMeta;
             const row = data[rowIndex];
-            if ((row.status === 'pendiente' || row.status === 'vencido') && isBefore(new Date(), parseISO(row.date))) {
-              handleStatusUpdate('exitoso', rowIndex);
+            if ((row.status === 'pendiente' || row.status === 'expirado') && isBefore(new Date(), parseISO(row.date))) {
+              handleStatusUpdate('notificado', rowIndex);
             }
           }
         }
