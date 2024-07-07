@@ -1,84 +1,3 @@
-/*import React, { useState, useEffect } from 'react';
-import MUIDataTable from 'mui-datatables';
-import { format, isAfter, parseISO } from 'date-fns';
-import axios from 'axios';
-
-export const CTable = () => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchPendingObligations = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/api/obligations/pending');
-        const today = new Date();
-
-        const filteredData = response.data
-          .filter(item => item.status === 'pendiente' && isAfter(parseISO(item.date), today))
-          .sort((a, b) => new Date(a.date) - new Date(b.date));
-
-        setData(filteredData);
-      } catch (error) {
-        console.error('Error fetching pending obligations:', error);
-      }
-    };
-
-    fetchPendingObligations();
-  }, []);
-
-  const columns = [
-    { name: 'id', label: 'ID', options: { filter: false, sort: false } },
-    { name: 'name', label: 'Nombre', options: { filter: false, sort: false } },
-    { name: 'obligations', label: 'Obligaciones Pendientes', options: { filter: false, sort: false } },
-    {
-      name: "date",
-      label: "Fecha límite",
-      options: {
-        filter: false,
-        sort: true,
-        customBodyRender: (value) => {
-          return format(new Date(value), 'dd/MM/yyyy');
-        }
-      }
-    },
-    {
-      name: "profile",
-      label: "Perfil",
-      options: {
-        filter: false,
-        sort: false,
-        customBodyRender: (value, tableMeta) => {
-          const clientId = tableMeta.rowData[0]; // Obtener el ID del cliente desde la fila actual
-          return (
-            <button
-              onClick={() => {
-                window.location.href = `/profile/${clientId}`;
-              }}
-            >
-              Ver Perfil
-            </button>
-          );
-        }
-      }
-    },
-  ];
-
-  return (
-    <MUIDataTable
-      title={'Prioridades de Clientes'}
-      data={data}
-      columns={columns}
-      options={{
-        selectableRows: 'none',
-        sortOrder: {
-          name: 'date',
-          direction: 'asc',
-        },
-      }}
-    />
-  );
-}
-
-*/
 import MUIDataTable from 'mui-datatables';
 import { useState, useEffect } from 'react';
 import { format, isAfter, parseISO } from 'date-fns';
@@ -176,3 +95,102 @@ export const CTable = () => {
     />
   );
 }
+/*
+import React, { useState, useEffect } from 'react';
+import MUIDataTable from 'mui-datatables';
+//import { format, isAfter, parseISO } from 'date-fns';
+import axios from 'axios';
+
+export const CTable = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchPendingObligations = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/Obligaciones/');
+        //const today = new Date();
+
+        const filteredData = response.data
+          //.filter(item => item.estado === 'pendiente')// isAfter(parseISO(item.date), today))
+          //.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+          setData(filteredData);
+        } catch (error) {
+          console.error('Error fetching pending obligations:', error);
+        }
+      };
+  
+      fetchPendingObligations();
+    }, []);
+  
+    useEffect(() => {
+      const fetchClientes = async () => {
+        try {
+          const responseClientes = await axios.get('http://localhost:8080/Obligaciones/');
+          //const today = new Date();
+  
+          const filteredData = responseClientes.data
+            //.filter(item => item.estado === 'pendiente')// isAfter(parseISO(item.date), today))
+            //.sort((a, b) => new Date(a.date) - new Date(b.date));
+  
+          setData(filteredData);
+        } catch (error) {
+          console.error('Error fetching pending obligations:', error);
+        }
+      };
+  
+      fetchCLientes();
+    }, []);
+  
+    const columns = [
+      { name: 'id_obligaciones', label: 'ID', options: { filter: false, sort: false } },
+      { name: 'nombre', label: 'Obligaciones Pendientes', options: { filter: false, sort: false } },
+      /*{***********************
+        name: "date",
+        label: "Fecha límite",
+        options: {
+          filter: false,
+          sort: true,
+          customBodyRender: (value) => {
+            return format(new Date(value), 'dd/MM/yyyy');
+          }
+        }
+      },*******************
+      {
+        name: "profile",
+        label: "Perfil",
+        options: {
+          filter: false,
+          sort: false,
+          customBodyRender: (value, tableMeta) => {
+            const clientId = tableMeta.rowData[0]; // Obtener el ID del cliente desde la fila actual
+            return (
+              <button
+                onClick={() => {
+                  window.location.href = `/profile/${clientId}`;
+                }}
+              >
+                Ver Perfil
+              </button>
+            );
+          }
+        }
+      },
+    ];
+  
+    return (
+      <MUIDataTable
+        title={'Prioridades de Clientes'}
+        data={data}
+        columns={columns}
+        options={{
+          selectableRows: 'none',
+          /*sortOrder: {
+            name: 'date',
+            direction: 'asc',
+          },****************
+        }}
+      />
+    );
+  }
+*/

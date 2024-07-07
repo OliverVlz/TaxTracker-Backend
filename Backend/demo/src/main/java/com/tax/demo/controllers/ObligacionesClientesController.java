@@ -18,7 +18,7 @@ import com.tax.demo.services.ObligacionesClientesService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping(path="ObligacionesClientes")
 public class ObligacionesClientesController {
     @Autowired

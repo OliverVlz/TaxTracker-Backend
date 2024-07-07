@@ -4,7 +4,7 @@ import axios from 'axios';
 import styles from './LoginForm.module.css';
 
 export function LoginForm({ handleLogin }) {
-  const [username, setUsername] = useState('');
+  const [usuario, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -13,26 +13,32 @@ export function LoginForm({ handleLogin }) {
     event.preventDefault();
 
     // Validar que ambos campos estén llenos
-    if (!username || !password) {
+    if (!usuario || !password) {
       setError('Por favor completa ambos campos');
       return;
     }
 
-    try {
-      const response = await axios.post('http://localhost:3001/api/login', {
-        username,
-        password,
-      });
+    console.log('Enviando solicitud de login con usuario:', usuario, 'y password:', password);
 
+    try {
+      const response = await axios.get('http://localhost:8080/Usuario/Login', {
+        params: {
+          usuario: usuario,
+          password: password,
+        }
+      });
+  
+      console.log('Respuesta del servidor:', response);
+  
       if (response.status === 200) {
-        handleLogin(username);
+        handleLogin(usuario);
         navigate('/'); // Redirige al usuario a la página principal después del inicio de sesión
       } else {
         setError('Credenciales incorrectas');
       }
     } catch (error) {
       console.error('Error al intentar iniciar sesión:', error);
-      setError('Error en la autenticación');
+      setError('Credenciales incorrectas');
     }
   };
 
@@ -46,7 +52,7 @@ export function LoginForm({ handleLogin }) {
             type="text"
             className={styles.input}
             placeholder="Username"
-            value={username}
+            value={usuario}
             onChange={(e) => setUsername(e.target.value)}
           />
           <input
