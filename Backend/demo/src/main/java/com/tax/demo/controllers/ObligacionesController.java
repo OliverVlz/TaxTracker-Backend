@@ -24,7 +24,7 @@ public class ObligacionesController {
     private ObligacionesService obligacionesService;
 
 
-    @GetMapping
+    @GetMapping("/")
     public List<ObligacionesEntity> getObligaciones(){
         return obligacionesService.getObligaciones();
     }

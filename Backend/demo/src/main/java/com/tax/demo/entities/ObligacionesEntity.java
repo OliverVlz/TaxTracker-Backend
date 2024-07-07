@@ -21,5 +21,6 @@ public class ObligacionesEntity {
     private Long id_obligaciones;
     public String nombre;
     public String descripcion;
+    public String estado;
     
 }

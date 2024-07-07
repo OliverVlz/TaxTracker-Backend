@@ -25,7 +25,7 @@ public class ClientesController {
     private ClientesService clientesService;
 
 
-    @GetMapping
+    @GetMapping("/")
     public List<ClientesEntity> getClientes(){
         return clientesService.getClientes();
     }

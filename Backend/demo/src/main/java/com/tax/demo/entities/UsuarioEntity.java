@@ -20,7 +20,7 @@ public class UsuarioEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_usuario;
     public String usuario;
-    public String contraseña;
+    public String password;
     public String nombre;
 
 
