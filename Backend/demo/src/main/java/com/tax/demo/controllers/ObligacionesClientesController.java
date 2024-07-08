@@ -18,7 +18,7 @@ import com.tax.demo.services.ObligacionesClientesService;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping(path="ObligacionesClientes")
 public class ObligacionesClientesController {
     @Autowired
@@ -43,10 +43,12 @@ public class ObligacionesClientesController {
         obligacionesClientesService.borrar(id);
     }
 
-
- 
     @GetMapping("/{id}")
-    public Optional<ObligacionesClientesEntity> getObligacionCliente(@PathVariable("id") Long id){
-        return obligacionesClientesService.getObligacionCliente(id);
+    public void getObligacionCliente(@PathVariable("id") Long id){
+        obligacionesClientesService.getActualizarEstado(id);
     }
+    /*@GetMapping("/Clientes/{id}")
+    public List<ObligacionesClientesEntity> getObligacionesPorCliente(@PathVariable("id") Long id) {
+        return obligacionesClientesService.getObligacionesPorCliente(id);
+    }*/
 }

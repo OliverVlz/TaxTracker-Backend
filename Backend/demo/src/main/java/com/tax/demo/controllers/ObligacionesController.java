@@ -17,7 +17,7 @@ import com.tax.demo.entities.ObligacionesEntity;
 import com.tax.demo.services.ObligacionesService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping(path="Obligaciones")
 public class ObligacionesController {
     @Autowired
