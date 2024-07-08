@@ -23,9 +23,10 @@ public class ClientesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_cliente;
-    public String id_usuario;
+    public String nombre;
     public String num_identificacion;
     public String tipo_identificacion;
+    public String id_usuario;
 
     @OneToMany(mappedBy = "clientesEntity", cascade = CascadeType.ALL)
     private Set<ObligacionesClientesEntity> obligacionesClientesEntities;

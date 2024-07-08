@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify'; // Importa ToastContainer y toast desde react-toastify
+import 'react-toastify/dist/ReactToastify.css'; // Asegúrate de importar los estilos de react-toastify
 import Navbar from './components/Navbar/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -26,12 +28,13 @@ const App = () => {
 
   return (
     <div>
+      <ToastContainer /> {/* Aquí se coloca ToastContainer para mostrar las notificaciones */}
       {shouldShowNavbar && <Navbar handleLogout={handleLogout} isAuthenticated={isAuthenticated} />}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login handleLogin={handleLogin} />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/profile/:id" element={<ClienteProfilePage />} />
+        <Route path="/ObligacionesClientes/:id" element={<ClienteProfilePage />} />
         <Route path="/historial" element={<Historial />} />
       </Routes>
     </div>

@@ -1,51 +1,81 @@
+import React, { useState, useEffect } from 'react';
 import MUIDataTable from 'mui-datatables';
-import { useState, useEffect } from 'react';
 import { format, isAfter, parseISO } from 'date-fns';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
-
-const initialData = [
-  { id: 11, name: "Joe James", obligations: "Test Corp", date: '2024-09-01', status: 'pendiente'},
-  { id: 11, name: "Joe James", obligations: "Test Corp 2", date: '2024-02-15', status: 'expirado'},
-  { id: 2, name: "John Walsh", obligations: "Test DIAN", date: '2024-02-15', status: 'expirado'},
-  { id: 3, name: "Bob Herm", obligations: "Test ADUANA", date: '2024-09-30', status: 'pendiente'},
-  { id: 3, name: "Bob Herm", obligations: "Test ADUANA 2", date: '2024-07-30', status: 'notificado'},
-  { id: 4, name: "James Houston", obligations: "Test VISA", date: '2024-07-20', status: 'pendiente'},
-  { id: 4, name: "James Houston", obligations: "Test VISA 2", date: '2024-08-20', status: 'notificado'},
-  { id: 4, name: "James Houston", obligations: "Test VISA 3", date: '2024-09-20', status: 'pendiente'},
-  { id: 4, name: "James Houston", obligations: "Test VISA 4", date: '2024-10-20', status: 'pendiente'},
-  { id: 4, name: "James Houston", obligations: "Test VISA 5", date: '2024-11-20', status: 'expirado'},
-  { id: 4, name: "James Houston", obligations: "Test VISA 6", date: '2024-12-20', status: 'pendiente'},
-  { id: 4, name: "James Houston", obligations: "Test VISA 7", date: '2025-01-20', status: 'pendiente'},
-];
 
 export const CTable = () => {
   const [data, setData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const today = new Date();
-    const filteredData = initialData
-      .filter(item => item.status === 'pendiente' || isAfter(parseISO(item.date), today))
-      .sort((a, b) => new Date(a.date) - new Date(b.date));
-
-    setData(filteredData);
+    const fetchPendingObligations = async () => {
+      try {
+        const response = await axios.get('http://localhost:8080/ObligacionesClientes/');
+        const today = new Date();
+        const filteredData = response.data
+          .filter(item => item.estado === 'pendiente' && isAfter(parseISO(item.fecha), today))
+          .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+        setData(filteredData);
+      } catch (error) {
+        console.error('Error fetching pending obligations:', error);
+      }
+    };
+    fetchPendingObligations();
   }, []);
 
-  //Columns
   const columns = [
-    { name: 'id', label: 'ID', options: { filter: false, sort: false } },
-    { name: 'name', label: 'Nombre', options: { filter: false, sort: false } },
-    { name: 'obligations', label: 'Obligaciones Pendientes', options: { filter: false, sort: false } },
+    { 
+      name: 'clientesEntity', 
+      label: 'ID Cliente', 
+      options: { 
+        filter: false, 
+        sort: false,
+        customBodyRender: (value) => value.id_cliente
+      } 
+    },
     {
-      name: "date",
-      label: "Fecha limite",
+      name: 'clientesEntity',
+      label: 'Nombre Cliente',
+      options: { 
+        filter: false, 
+        sort: false,
+        customBodyRender: (value) => value.nombre
+      }
+    },
+    {
+      name: 'obligacionesEntity',
+      label: 'Obligación Cliente',
+      options: { 
+        filter: false, 
+        sort: false,
+        customBodyRender: (value) => value.nombre
+      }
+    },
+    { 
+      name: 'valor', 
+      label: 'Valor', 
+      options: { 
+        filter: false, 
+        sort: false 
+      } 
+    },
+    { 
+      name: 'estado', 
+      label: 'Estado', 
+      options: { 
+        filter: false, 
+        sort: false 
+      } 
+    },
+    {
+      name: "fecha",
+      label: "Fecha límite",
       options: {
         filter: false,
         sort: true,
-        customBodyRender: (value) => {
-          return format(new Date(value), 'dd/MM/yyyy'); // formatea la fecha
-        }
+        customBodyRender: (value) => format(new Date(value), 'dd/MM/yyyy')
       }
     },
     {
@@ -55,12 +85,12 @@ export const CTable = () => {
         filter: false,
         sort: false,
         customBodyRender: (value, tableMeta) => {
-          const clientId = tableMeta.rowData[0]; // Obtener el ID del cliente desde la fila actual
+          const clientId = tableMeta.rowData[0].id_cliente;
           return (
             <Button
               variant="contained"
-              color= "primary"
-              onClick={() => navigate(`/profile/${clientId}`)}
+              color="primary"
+              onClick={() => navigate(`/ObligacionesClientes/${clientId}`)}
             >
               Ver Perfil
             </Button>
@@ -69,7 +99,7 @@ export const CTable = () => {
       }
     },
   ];
-  //render
+
   return (
     <MUIDataTable
       title={'Prioridades de Clientes'}
@@ -78,119 +108,10 @@ export const CTable = () => {
       options={{
         selectableRows: 'none',
         sortOrder: {
-          name: 'date',  
-          direction: 'asc', 
-        },
-        customBodyRender: (value, tableMeta) => {
-          const clientId = tableMeta.rowData[0]; // Obtener el ID del cliente desde la fila actual
-          return (
-            <button
-              onClick={() => navigate(`/profile/${clientId}`)}
-            >
-              Ver Perfil
-            </button>
-          );
+          name: 'fecha',
+          direction: 'asc',
         },
       }}
     />
   );
 }
-/*
-import React, { useState, useEffect } from 'react';
-import MUIDataTable from 'mui-datatables';
-//import { format, isAfter, parseISO } from 'date-fns';
-import axios from 'axios';
-
-export const CTable = () => {
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchPendingObligations = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/Obligaciones/');
-        //const today = new Date();
-
-        const filteredData = response.data
-          //.filter(item => item.estado === 'pendiente')// isAfter(parseISO(item.date), today))
-          //.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-          setData(filteredData);
-        } catch (error) {
-          console.error('Error fetching pending obligations:', error);
-        }
-      };
-  
-      fetchPendingObligations();
-    }, []);
-  
-    useEffect(() => {
-      const fetchClientes = async () => {
-        try {
-          const responseClientes = await axios.get('http://localhost:8080/Obligaciones/');
-          //const today = new Date();
-  
-          const filteredData = responseClientes.data
-            //.filter(item => item.estado === 'pendiente')// isAfter(parseISO(item.date), today))
-            //.sort((a, b) => new Date(a.date) - new Date(b.date));
-  
-          setData(filteredData);
-        } catch (error) {
-          console.error('Error fetching pending obligations:', error);
-        }
-      };
-  
-      fetchCLientes();
-    }, []);
-  
-    const columns = [
-      { name: 'id_obligaciones', label: 'ID', options: { filter: false, sort: false } },
-      { name: 'nombre', label: 'Obligaciones Pendientes', options: { filter: false, sort: false } },
-      /*{***********************
-        name: "date",
-        label: "Fecha límite",
-        options: {
-          filter: false,
-          sort: true,
-          customBodyRender: (value) => {
-            return format(new Date(value), 'dd/MM/yyyy');
-          }
-        }
-      },*******************
-      {
-        name: "profile",
-        label: "Perfil",
-        options: {
-          filter: false,
-          sort: false,
-          customBodyRender: (value, tableMeta) => {
-            const clientId = tableMeta.rowData[0]; // Obtener el ID del cliente desde la fila actual
-            return (
-              <button
-                onClick={() => {
-                  window.location.href = `/profile/${clientId}`;
-                }}
-              >
-                Ver Perfil
-              </button>
-            );
-          }
-        }
-      },
-    ];
-  
-    return (
-      <MUIDataTable
-        title={'Prioridades de Clientes'}
-        data={data}
-        columns={columns}
-        options={{
-          selectableRows: 'none',
-          /*sortOrder: {
-            name: 'date',
-            direction: 'asc',
-          },****************
-        }}
-      />
-    );
-  }
-*/

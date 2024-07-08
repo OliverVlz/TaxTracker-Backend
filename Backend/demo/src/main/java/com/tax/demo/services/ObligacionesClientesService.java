@@ -29,4 +29,8 @@ public class ObligacionesClientesService {
     public void borrar(Long id){
         obligacionesClientesRepository.deleteById(id);
     }
+
+    public void getActualizarEstado(Long id) {
+        obligacionesClientesRepository.getActualizarEstado(id);
+    }
 }
