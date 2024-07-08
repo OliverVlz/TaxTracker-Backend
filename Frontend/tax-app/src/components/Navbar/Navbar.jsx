@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <header>
       <nav className={styles.nav}>
-        <label className={styles.logo}>TaskTracker</label>
+        <label className={styles.logo}>TaxTracker</label>
         <ul className={styles.ul}>
           <li><Link to="/" className={styles.link}>Home</Link></li>
           <li><Link to="/historial" className={styles.link}>Historial</Link></li>
