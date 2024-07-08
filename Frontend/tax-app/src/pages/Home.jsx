@@ -1,9 +1,15 @@
-import React from "react";
+import React from 'react';
+{/*import ClienteTable from '../components/Home/ClienteTable';*/}
+import { ClienteTableBase } from '../components/Home/ClienteTableBase';
 
-export function Home (){
- return(
-    <div>LOL</div>
-
- );
+const Home = () => {
+  return (
+    <div>
+      <h1>Home Page</h1>
+      {/*<ClienteTable />*/}
+      <ClienteTableBase />
+    </div>
+  );
 };
 
+export default Home;
